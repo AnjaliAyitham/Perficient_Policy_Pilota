@@ -1,3 +1,5 @@
+const API_BASE = 'https://perficient-policy-pilota.onrender.com';
+
 const chatContainer = document.getElementById('chat-container');
 const messagesDiv = document.getElementById('messages');
 const welcomeDiv = document.getElementById('welcome');
@@ -15,7 +17,7 @@ let isProcessing = false;
 
 async function fetchDocCount() {
     try {
-        const res = await fetch('/api/health');
+        const res = await fetch(`${API_BASE}/api/health`);
         const data = await res.json();
         docCountEl.innerHTML = `
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
@@ -188,7 +190,7 @@ async function sendMessage(question) {
     let sources = [];
 
     try {
-        const response = await fetch('/api/chat/stream', {
+        const response = await fetch(`${API_BASE}/api/chat/stream`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -274,7 +276,7 @@ clearBtn.addEventListener('click', () => {
     messagesDiv.innerHTML = '';
     welcomeDiv.style.display = 'block';
     if (sessionId) {
-        fetch('/api/chat/clear', {
+        fetch(`${API_BASE}/api/chat/clear`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question: '', session_id: sessionId }),
