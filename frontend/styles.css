@@ -76,6 +76,12 @@ body {
     align-items: center;
 }
 
+.perficient-logo {
+    height: 36px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
 .brand-text {
     display: flex;
     flex-direction: column;
