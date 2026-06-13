@@ -457,6 +457,76 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Typewriter effect */
+.typewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid var(--primary);
+    animation: typewriter 1.5s steps(20) 0.3s forwards,
+               blinkCaret 0.7s step-end infinite;
+    width: 0;
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blinkCaret {
+    50% { border-color: transparent; }
+}
+
+.typewriter-done {
+    border-right: none;
+    animation: none;
+    width: 100%;
+}
+
+/* Floating cards */
+.category-card:nth-child(1) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 1s infinite; animation-delay: 0.1s; opacity: 0; }
+.category-card:nth-child(2) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 1.2s infinite; animation-delay: 0.15s; opacity: 0; }
+.category-card:nth-child(3) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 1.4s infinite; animation-delay: 0.2s; opacity: 0; }
+.category-card:nth-child(4) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 1.6s infinite; animation-delay: 0.25s; opacity: 0; }
+.category-card:nth-child(5) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 1.8s infinite; animation-delay: 0.3s; opacity: 0; }
+.category-card:nth-child(6) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 2s infinite; animation-delay: 0.35s; opacity: 0; }
+.category-card:nth-child(7) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 2.2s infinite; animation-delay: 0.4s; opacity: 0; }
+.category-card:nth-child(8) { animation: floatCard 0.5s ease forwards, gentleFloat 4s ease-in-out 2.4s infinite; animation-delay: 0.45s; opacity: 0; }
+
+@keyframes floatCard {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Send button glow when input has text */
+.btn-send.has-text {
+    animation: sendGlow 2s ease-in-out infinite;
+}
+
+@keyframes sendGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 72, 81, 0); }
+    50% { box-shadow: 0 0 12px 3px rgba(0, 72, 81, 0.3); }
+}
+
+/* Ripple effect */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+}
+
 /* Stats Row */
 .stats-row {
     display: flex;
@@ -510,11 +580,16 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
+.category-card {
+    perspective: 800px;
+    transform-style: preserve-3d;
+}
+
 .category-card:hover {
     border-color: var(--primary);
     background: var(--accent-bg);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 72, 81, 0.12);
+    transform: translateY(-4px) rotateX(2deg);
+    box-shadow: 0 8px 20px rgba(0, 72, 81, 0.15);
 }
 
 .category-icon {
@@ -608,7 +683,13 @@ body {
 .message {
     display: flex;
     gap: 12px;
-    animation: fadeIn 0.3s ease;
+    animation: messageBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes messageBounce {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes fadeIn {
@@ -905,9 +986,18 @@ body {
 }
 
 .input-form:focus-within {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 72, 81, 0.08);
+    border-color: transparent;
     background: var(--white);
+    background-image: linear-gradient(var(--white), var(--white)),
+                      linear-gradient(135deg, var(--primary), var(--primary-light), #00a3a3, var(--primary));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: glowBorder 3s ease-in-out infinite;
+}
+
+@keyframes glowBorder {
+    0%, 100% { box-shadow: 0 0 8px rgba(0, 72, 81, 0.15), 0 0 0 1px var(--primary); }
+    50% { box-shadow: 0 0 16px rgba(0, 72, 81, 0.3), 0 0 0 1px var(--primary-light); }
 }
 
 #question-input {

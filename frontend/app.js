@@ -494,3 +494,55 @@ questionInput.addEventListener('keydown', (e) => {
         chatForm.dispatchEvent(new Event('submit'));
     }
 });
+
+// --- Send button glow when input has text ---
+questionInput.addEventListener('input', () => {
+    if (questionInput.value.trim()) {
+        sendBtn.classList.add('has-text');
+    } else {
+        sendBtn.classList.remove('has-text');
+    }
+});
+
+// --- Typewriter completion ---
+const typewriterEl = document.getElementById('typewriter-text');
+if (typewriterEl) {
+    setTimeout(() => {
+        typewriterEl.classList.add('typewriter-done');
+    }, 2000);
+}
+
+// --- 3D tilt on category cards ---
+document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
+
+// --- Ripple effect on buttons ---
+document.querySelectorAll('.btn-send, .category-card, .nav-item, .chip, .faq-item').forEach(btn => {
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
