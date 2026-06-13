@@ -504,12 +504,31 @@ questionInput.addEventListener('input', () => {
     }
 });
 
-// --- Typewriter completion ---
+// --- Typewriter effect ---
 const typewriterEl = document.getElementById('typewriter-text');
 if (typewriterEl) {
+    const text = typewriterEl.textContent;
+    const measure = document.createElement('span');
+    measure.style.visibility = 'hidden';
+    measure.style.position = 'absolute';
+    measure.style.whiteSpace = 'nowrap';
+    measure.style.font = getComputedStyle(typewriterEl.parentElement).font;
+    measure.textContent = text;
+    document.body.appendChild(measure);
+    const textWidth = measure.offsetWidth;
+    document.body.removeChild(measure);
+
+    const style = document.createElement('style');
+    style.textContent = `@keyframes typewriter { from { width: 0; } to { width: ${textWidth}px; } }`;
+    document.head.appendChild(style);
+
+    typewriterEl.classList.add('typing');
+
     setTimeout(() => {
+        typewriterEl.classList.remove('typing');
         typewriterEl.classList.add('typewriter-done');
-    }, 2000);
+        typewriterEl.style.width = textWidth + 'px';
+    }, 2200);
 }
 
 // --- 3D tilt on category cards ---
